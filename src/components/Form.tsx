@@ -14,8 +14,6 @@ interface FormProps {
     
     // newSub: React.Dispatch<React.SetStateAction<Sub[]>> //Para el setState de sub
 }
-
-
 const INITIAL_STATE= 
     {
         nick:'',
@@ -23,13 +21,40 @@ const INITIAL_STATE=
         avatar:'',
         description: '',
     }
+//UseReducer
+type FormReducerAction = {
+    type: "change_value1",
+    payload:{
+        inputName: string
+        inputValue: string
+    }
+} | {type:"clear"}
+
+//reducer
+const formReducer = (state: FormState["inputValues"], action:FormReducerAction)=>{
+
+
+    switch(action.type){
+
+        case "change_value1":
+            const {inputName, inputValue} = action.payload
+            return{
+                ...state, 
+                [inputName]: inputValue
+            }
+
+        case "clear":
+            return INITIAL_STATE
+    }
+}
+
 
 
 const Form = ({onNewSub}:FormProps) => {
 
-    const [inputValues, setInputValues] = useState<FormState["inputValues"]>(INITIAL_STATE)
+    // const [inputValues, setInputValues] = useState<FormState["inputValues"]>(INITIAL_STATE)
 
-    // const [inputValues, dispatch] = useReducer(formReducer, INITIAL_STATE)
+    const [inputValues, dispatch] = useReducer(formReducer, INITIAL_STATE)
 
 
     const handleOnSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
@@ -42,6 +67,7 @@ const Form = ({onNewSub}:FormProps) => {
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>)=>{
         
+    //Usando El setState de subs de App.tsx
         // setInputValues(prevSate => (
         //     {
         //         ...prevSate, 
@@ -49,14 +75,32 @@ const Form = ({onNewSub}:FormProps) => {
         //     }
         //     )
         // )
-        setInputValues({
-            ...inputValues, 
-            [e.target.name]: e.target.value
-        })
+
+    //Usando la Funcion q envuelve setSubs de App.tsc
+        // setInputValues({
+        //     ...inputValues, 
+        //     [e.target.name]: e.target.value
+        // })
+    //Usando useREducer
+        
+        const {name, value} = e.target
+        dispatch(
+            {
+                type: "change_value1",
+                payload: {
+                    inputName: name,
+                    inputValue: value
+                }
+            }
+        )
     }
 
     const handleClear = ()=>{
-        setInputValues(INITIAL_STATE)
+
+    //Usando funcion q envuelve a setSubs
+        // setInputValues(INITIAL_STATE)
+    //Usando el useReducer clear
+        dispatch({type: "clear"})
     }
     
 
