@@ -1,0 +1,47 @@
+
+
+
+/* ---- LISTA ---- */
+.container_list{
+    margin: 20px;
+    border: 1px solid rgb(216, 216, 216);
+    border-radius: 20px;
+}
+.container_list ul li{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container_list img{
+    border-radius: 200px;
+    width: 70px;
+    height: 70px;
+}
+
+
+/* Form */
+
+.form_main{
+    background-color: rgb(100, 100, 100);
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    margin: 0 auto;
+
+    padding: 20px;
+}
+
+.form_main  input, textarea{
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    padding: 5px;
+    border: none;
+}
+.form_main textarea{
+    width: 100%;
+    height: 50px;
+}

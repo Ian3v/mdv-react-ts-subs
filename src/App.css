@@ -1,0 +1,179 @@
+/* ----------------------------------------------------
+   1. Reset Global y Configuración de Base
+----------------------------------------------------- */
+
+/* Aseguramos que el html, body y el contenedor principal ocupen la altura completa */
+html, body, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Aplicamos box-sizing a todos los elementos */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Fuente base, tamaño y line-height recomendados */
+body {
+  font-family: 'Inter', sans-serif; /* Fuente legible y muy usada en interfaces modernas */
+  font-size: 16px; /* 1rem = 16px */
+  line-height: 1.5;
+  color: #333;
+  background-color: #f4f4f4;
+  /* min-height para que el body siempre ocupe al menos la altura de la ventana */
+  min-height: 100vh;
+}
+
+/* ----------------------------------------------------
+   2. Variables CSS para Escala Modular y Dimensiones
+----------------------------------------------------- */
+:root {
+  /* Escala tipográfica basada en un modular scale */
+  --font-h1: 2.5rem; /* 40px */
+  --font-h2: 2rem;   /* 32px */
+  --font-h3: 1.75rem;/* 28px */
+  --font-h4: 1.5rem; /* 24px */
+  --font-h5: 1.25rem;/* 20px */
+  --font-h6: 1rem;   /* 16px */
+  
+  /* Altura recomendada para inputs y botones (40px-45px aprox.) */
+  --input-height: 2.5rem;   /* 40px */
+  --button-height: 2.75rem; /* 44px */
+}
+
+/* ----------------------------------------------------
+   3. Tipografía y Estilos de Texto
+----------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0rem;
+  line-height: 1.2;
+  font-weight: 600;
+  color: #222;
+}
+h1 { font-size: var(--font-h1); }
+h2 { font-size: var(--font-h2); }
+h3 { font-size: var(--font-h3); }
+h4 { font-size: var(--font-h4); }
+h5 { font-size: var(--font-h5); }
+h6 { font-size: var(--font-h6); }
+
+p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Los enlaces, además de ser accesibles, deben tener un tamaño legible.
+   Se recomienda que tengan al menos 1rem de tamaño y al hacer hover se subraye */
+a {
+  font-size: 1rem;
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover, a:focus {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* ----------------------------------------------------
+   4. Formularios: Labels, Inputs, Textareas, Selects
+----------------------------------------------------- */
+label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+input, textarea, select {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.5rem;
+  height: var(--input-height);
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+/* ----------------------------------------------------
+   5. Botones
+----------------------------------------------------- */
+button {
+  font-size: 1rem;
+  padding: 0 1rem;
+  height: var(--button-height);
+  line-height: var(--button-height); /* Para centrar el texto verticalmente */
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+button:hover, button:focus {
+  background-color: #0056b3;
+}
+
+/* ----------------------------------------------------
+   6. Imágenes y Multimedia
+----------------------------------------------------- */
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ----------------------------------------------------
+   7. Listas
+----------------------------------------------------- */
+ul, ol {
+  list-style: none;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* ----------------------------------------------------
+   8. Contenedores y Utilidades
+----------------------------------------------------- */
+/* Contenedor central para layouts, con ancho máximo y centrado */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* padding: 1rem; */
+}
+
+/* Utilidad para que un elemento ocupe el 100% de la altura de su contenedor.
+   Importante: el padre debe tener una altura definida (por ejemplo, mediante html, body y #root). */
+.full-height {
+  height: 100%;
+}
+
+/* Clases de alineación y espaciado */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+.mt-1 { margin-top: 0.5rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+
+
+.container_main{
+  background-color: rgb(160, 72, 72);
+  width: 90%;
+  min-height: 100vh;
+}
