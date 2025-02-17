@@ -12,6 +12,7 @@ import ContadorUseReducerSwitch from './components/ContadorUseReducerSwitch'
 
 interface AppState {
   subs:Array<Sub>
+  newSubsNumber:number
 }
 
 const INITIAL_STATE = [
@@ -38,20 +39,21 @@ interface Sub{
 function App() {
 
   const [subs, setSubs] = useState<AppState["subs"]>([])
+  const [newSubsNumer, setNewSubsNumber] = useState<AppState["newSubsNumber"]>(0)
   
   useEffect(()=>{
     setSubs(INITIAL_STATE)
     console.log("App.tsx>>", subs);
   },[])
 
-  useEffect(()=>{
-    console.log('Subs>>', subs);
-  },[subs])
+
 
   const handleNewSub= (inputValues:Sub):void=>{
     setSubs(
       subs => [...subs, inputValues]
     )
+    setNewSubsNumber(n => n + 1)
+  
   }
 
   return (
@@ -59,6 +61,7 @@ function App() {
 
       <h1>Mdv Subs</h1>
       <List subscriptores={subs}/>
+      New Subs: {newSubsNumer}
       <Form  onNewSub={handleNewSub}/>
 
       <ContadorUseReducerIF/>

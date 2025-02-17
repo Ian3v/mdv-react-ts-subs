@@ -3,66 +3,18 @@ import { SetStateAction, useEffect, useReducer, useState } from 'react'
 import '../styles/styles.css'
 import {Sub} from "../types/types"
 
-
+import useNewSubForm from '../hooks/useNewSubForm'
 //Esta interface esta bien, no es necesaio separarlo en otro archivos de types , porq este de aka es algo unico de este archivo, comoq sirve aka bien, si lo llevamos al archivo de types, pues se hara mucha cosa
-interface FormState {
-    inputValues:Sub
-}
+
 
 interface FormProps {
     onNewSub: (inputValues: Sub) =>void
     
     // newSub: React.Dispatch<React.SetStateAction<Sub[]>> //Para el setState de sub
 }
-const INITIAL_STATE= 
-    {
-        nick:'',
-        subMonths: 0,
-        avatar:'',
-        description: '',
-    }
-//UseReducer
-type FormReducerAction = 
-    {
-        type: "change_value1",
-        payload:{
-            inputName: string
-            inputValue: string
-        }
-    } | 
-    {   type:"clear"}
+
 
 //reducer
-const formReducer = (state:FormState["inputValues"], action:FormReducerAction)=>{
-
-    console.log('>>>>------------------------');
-    console.log('Action Reducer>>',action); 
-    console.log('State Reducer>>', state);
-    if(action.payload ){
-
-        console.log('%caction.obj >','color:red;font-size:15px;',action.payload.inputName);
-        console.log('%caction.obj >','color:red;font-size:15px;',action.payload.inputValue);
-    }
-        console.log('--------------------------|||');
-
-
-    switch(action.type){
-        case "change_value1":
-            // ------------First type----------
-            // const [inputName, inputValue] = action.payload
-            // return { ...state, [inputName]: inputValue}
-            // --------------------------------
-        
-            return {...state, [action.payload.inputName]: action.payload.inputValue }
-        
-
-        case "clear":
-            return INITIAL_STATE
-        default:
-            return state
-    }
-    
-}
 
 
 
@@ -70,7 +22,8 @@ const Form = ({onNewSub}:FormProps) => {
 
     // const [inputValues, setInputValues] = useState<FormState["inputValues"]>(INITIAL_STATE)
 
-    const [inputValues, dispatch] = useReducer(formReducer, INITIAL_STATE)
+    // const [inputValues, dispatch] = useReducer(formReducer, INITIAL_STATE)? 
+    const [inputValues, dispatch] = useNewSubForm()
 
 
     const handleOnSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
