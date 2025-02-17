@@ -1,7 +1,7 @@
 import React, {useReducer} from "react";
 import '../styles/styles.css'
 
-type contType = {
+interface contType  {
   valor: number
 }
 

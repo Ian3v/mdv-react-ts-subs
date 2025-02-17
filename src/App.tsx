@@ -4,7 +4,7 @@ import './styles/styles.css'
 import List from "./components/List"
 import Form from "./components/Form"
 
-import ContadorUseReducerIF from './components/ContadorUseReducer'
+import ContadorUseReducerIF from './components/ContadorUseReducerIf'
 
 import {Sub} from './types/types'
 import ContadorUseReducerSwitch from './components/ContadorUseReducerSwitch'

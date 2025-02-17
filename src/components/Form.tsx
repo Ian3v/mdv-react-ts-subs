@@ -31,21 +31,29 @@ type FormReducerAction = {
 } | {type:"clear"}
 
 //reducer
-const formReducer = (state: FormState["inputValues"], action:FormReducerAction)=>{
+const formReducer = (state:FormState["inputValues"], action:FormReducerAction)=>{
+
+    console.log('>>>>------------------------');
+    console.log('Action Reducer>>',action);
+    console.log('State Reducer>>', state);
+    if(action.payload ){
+
+        console.log('%caction.obj >','color:red;font-size:15px;',action.payload.inputName);
+        console.log('%caction.obj >','color:red;font-size:15px;',action.payload.inputValue);
+    }
+        console.log('--------------------------|||');
 
 
     switch(action.type){
-
         case "change_value1":
-            const {inputName, inputValue} = action.payload
-            return{
-                ...state, 
-                [inputName]: inputValue
-            }
+        // return {...state, [action.] }
+        return {...state, [action.payload.inputName]: action.payload.inputValue }
+        // return state
 
         case "clear":
             return INITIAL_STATE
     }
+    
 }
 
 
@@ -59,10 +67,8 @@ const Form = ({onNewSub}:FormProps) => {
 
     const handleOnSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
-        
-        // newSub(prevState => ([...prevState, inputValues]))//El SetState de sub
+
         onNewSub(inputValues)
-        handleClear()
     }
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>)=>{
@@ -82,25 +88,19 @@ const Form = ({onNewSub}:FormProps) => {
         //     [e.target.name]: e.target.value
         // })
     //Usando useREducer
-        
-        const {name, value} = e.target
-        dispatch(
-            {
-                type: "change_value1",
-                payload: {
-                    inputName: name,
-                    inputValue: value
-                }
-            }
-        )
+    
+        console.log(e.target.name);
+        dispatch({type: 'change_value1', payload:{inputName: e.target.name, inputValue: e.target.value}});
     }
+    // const {name, value} = ()=>{
+    //         //  e.target
+        
+    // }
 
     const handleClear = ()=>{
 
-    //Usando funcion q envuelve a setSubs
-        // setInputValues(INITIAL_STATE)
-    //Usando el useReducer clear
         dispatch({type: "clear"})
+   
     }
     
 
