@@ -22,19 +22,21 @@ const INITIAL_STATE=
         description: '',
     }
 //UseReducer
-type FormReducerAction = {
-    type: "change_value1",
-    payload:{
-        inputName: string
-        inputValue: string
-    }
-} | {type:"clear"}
+type FormReducerAction = 
+    {
+        type: "change_value1",
+        payload:{
+            inputName: string
+            inputValue: string
+        }
+    } | 
+    {   type:"clear"}
 
 //reducer
 const formReducer = (state:FormState["inputValues"], action:FormReducerAction)=>{
 
     console.log('>>>>------------------------');
-    console.log('Action Reducer>>',action);
+    console.log('Action Reducer>>',action); 
     console.log('State Reducer>>', state);
     if(action.payload ){
 
@@ -46,12 +48,18 @@ const formReducer = (state:FormState["inputValues"], action:FormReducerAction)=>
 
     switch(action.type){
         case "change_value1":
-        // return {...state, [action.] }
-        return {...state, [action.payload.inputName]: action.payload.inputValue }
-        // return state
+            // ------------First type----------
+            // const [inputName, inputValue] = action.payload
+            // return { ...state, [inputName]: inputValue}
+            // --------------------------------
+        
+            return {...state, [action.payload.inputName]: action.payload.inputValue }
+        
 
         case "clear":
             return INITIAL_STATE
+        default:
+            return state
     }
     
 }
@@ -69,10 +77,22 @@ const Form = ({onNewSub}:FormProps) => {
         e.preventDefault()
 
         onNewSub(inputValues)
+        handleClear() //o tambien dispatch({type: "clear"})
     }
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>)=>{
         
+    //Usando useREducer
+        console.log(e.target.name);
+        dispatch({
+            type: 'change_value1', 
+            payload:{
+                inputName: e.target.name, 
+                inputValue: e.target.value
+            }}
+        );
+    
+
     //Usando El setState de subs de App.tsx
         // setInputValues(prevSate => (
         //     {
@@ -87,10 +107,7 @@ const Form = ({onNewSub}:FormProps) => {
         //     ...inputValues, 
         //     [e.target.name]: e.target.value
         // })
-    //Usando useREducer
     
-        console.log(e.target.name);
-        dispatch({type: 'change_value1', payload:{inputName: e.target.name, inputValue: e.target.value}});
     }
     // const {name, value} = ()=>{
     //         //  e.target
