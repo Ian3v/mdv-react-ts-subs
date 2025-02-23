@@ -30,37 +30,47 @@ function App() {
   const [newSubsNumer, setNewSubsNumber] = useState<AppState["newSubsNumber"]>(0)
   
 
+  //Consumiendo Fetch con async
+
   useEffect(() => {
 
-    const getSubs = async () => {
+    const fetchSubs = (): Promise<SubsResponseFromApi> => {
 
-      try {
-        // Hacer fetch con tipado explícito
-        const response = await fetch('http://localhost:6505/users');
-        // ← ¡TypeScript valida aquí!
-        const dataJson:SubsResponseFromApi  = await response.json();
-        
-        console.log('getApi>>', dataJson);
+      return fetch('http://localhost:6505/users').then(res => res.json())
 
-        const mappedSubs= dataJson.map( element=>{
-          return {
+    }
 
-            nick: element.nick,
-            subMonths: element.months, // Mapeamos "months" a "subMonths"
-            avatar: element.profileUrl, // Mapeamos "profileUrl" a "avatar"
-            description: element.description
-          }
-        })
+    const mapFromApiToSubs = ( apiResponse: SubsResponseFromApi): Array<Sub> =>{
 
-        console.log('mappedSubs>>',mappedSubs)
-        setSubs(mappedSubs);
+      return apiResponse.map( subFromApi=>{
+        const {
+          months:subMoths,
+          profileUrl:avatar,
+          nick,
+          description
+        } = subFromApi 
 
-      } catch (error) {
-        console.error('Error fetching subs:', error);
-      }
-    };
-  
-    getSubs();
+        return{
+          nick,
+          description,
+          avatar,
+          subMoths
+        }
+      })
+    }
+
+
+    fetchSubs()
+      .then(mapFromApiToSubs)
+      .then(setSubs)
+
+    // fetchSubs()
+    //   .then(apiSubs =>{
+    //     const subs = mapFromApiToSubs(apiSubs)
+    //     setSubs(subs)
+    //   })
+
+
   }, []);
   
 
@@ -90,6 +100,40 @@ function App() {
 
 export default App
 
+
+
+// CONSUMIENDO API CON FETCH Y <ASYNC>useEffect(() => {
+
+//     const getSubs = async () => {
+
+//       try {
+//         // Hacer fetch con tipado explícito
+//         const response = await fetch('http://localhost:6505/users');
+//         // ← ¡TypeScript valida aquí!
+//         const dataJson:SubsResponseFromApi  = await response.json();
+        
+//         console.log('getApi>>', dataJson);
+
+//         const mappedSubs= dataJson.map( element=>{
+//           return {
+
+//             nick: element.nick,
+//             subMonths: element.months, // Mapeamos "months" a "subMonths"
+//             avatar: element.profileUrl, // Mapeamos "profileUrl" a "avatar"
+//             description: element.description
+//           }
+//         })
+
+//         console.log('mappedSubs>>',mappedSubs)
+//         setSubs(mappedSubs);
+
+//       } catch (error) {
+//         console.error('Error fetching subs:', error);
+//       }
+//     };
+  
+//     getSubs();
+//   }, []);</ASYNC>
 
 
 
