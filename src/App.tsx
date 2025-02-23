@@ -6,7 +6,7 @@ import Form from "./components/Form"
 
 import ContadorUseReducerIF from './components/ContadorUseReducerIf'
 
-import {Sub} from './types/types'
+import {Sub, SubsResponseFromApi} from './types/types'
 import ContadorUseReducerSwitch from './components/ContadorUseReducerSwitch'
 
 
@@ -15,19 +15,7 @@ interface AppState {
   newSubsNumber:number
 }
 
-const INITIAL_STATE = [
-    {
-      nick: 'Carmen',
-      subMonths: 3,
-      avatar: 'https://i.pravatar.cc/150?u=dapelu',
-      description: 'Daleu hacce moredador a veces deleniti eius qui Eligendi nam suscipit ut dolorem molestiae eum. Neque vero adipisci culpa. Voluptas provident animi velit nulla in modi. Inventore labore ipsam. Voluptates quia ab earum.'
-    },
-    {
-      nick:'sergio_serrano',
-      subMonths: 7,
-      avatar:'https://i.pravatar.cc/150?u=sergio_serrano',
-    }
-  ]
+
 
 interface Sub{
   nick: string
@@ -41,10 +29,40 @@ function App() {
   const [subs, setSubs] = useState<AppState["subs"]>([])
   const [newSubsNumer, setNewSubsNumber] = useState<AppState["newSubsNumber"]>(0)
   
-  useEffect(()=>{
-    setSubs(INITIAL_STATE)
-    console.log("App.tsx>>", subs);
-  },[])
+
+  useEffect(() => {
+
+    const getSubs = async () => {
+
+      try {
+        // Hacer fetch con tipado explícito
+        const response = await fetch('http://localhost:6505/users');
+        // ← ¡TypeScript valida aquí!
+        const dataJson:SubsResponseFromApi  = await response.json();
+        
+        console.log('getApi>>', dataJson);
+
+        const mappedSubs= dataJson.map( element=>{
+          return {
+
+            nick: element.nick,
+            subMonths: element.months, // Mapeamos "months" a "subMonths"
+            avatar: element.profileUrl, // Mapeamos "profileUrl" a "avatar"
+            description: element.description
+          }
+        })
+
+        console.log('mappedSubs>>',mappedSubs)
+        setSubs(mappedSubs);
+
+      } catch (error) {
+        console.error('Error fetching subs:', error);
+      }
+    };
+  
+    getSubs();
+  }, []);
+  
 
 
 
@@ -74,3 +92,18 @@ export default App
 
 
 
+
+
+// const INITIAL_STATE = [
+//     {
+//       nick: 'Carmen',
+//       subMonths: 3,
+//       avatar: 'https://i.pravatar.cc/150?u=dapelu',
+//       description: 'Daleu hacce moredador a veces deleniti eius qui Eligendi nam suscipit ut dolorem molestiae eum. Neque vero adipisci culpa. Voluptas provident animi velit nulla in modi. Inventore labore ipsam. Voluptates quia ab earum.'
+//     },
+//     {
+//       nick:'sergio_serrano',
+//       subMonths: 7,
+//       avatar:'https://i.pravatar.cc/150?u=sergio_serrano',
+//     }
+//   ]

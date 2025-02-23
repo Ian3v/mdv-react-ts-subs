@@ -19,6 +19,7 @@ import { Request, Response } from 'express';
     }
   ]
 
+  console.log("====================>>>>")
 
 const app = express();
 
@@ -52,12 +53,24 @@ app.get( '/', (req,res)=>{
 
 app.get('/users', async (req:Request, res:Response)=>{
 
-    let query = `SELECT * FROM users;` 
+    
 
     try{
-        const result = await client.query(query)
-        res.json(result.rows);
 
+        const result = await client.query('SELECT * FROM users;');
+        
+        //Mapeamos y devolvemos el nuevo formato
+        const formatoUsers = 
+        result.rows.map( (element, index)=>{
+          return {
+            nick:element.nick,
+            months:element.submonths,
+            profileUrl: element.avatar,
+            description: element.description
+          }
+        })
+
+        res.json(formatoUsers);
     }catch(err){
         res.status(500).send("Error en el servidor"); // Manejo de errores
 
