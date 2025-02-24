@@ -9,6 +9,7 @@ import ContadorUseReducerIF from './components/ContadorUseReducerIf'
 import {Sub, SubsResponseFromApi} from './types/types'
 import ContadorUseReducerSwitch from './components/ContadorUseReducerSwitch'
 
+import { getAllSubs } from './services/fetch-getAllSubs'
 
 interface AppState {
   subs:Array<Sub>
@@ -32,35 +33,14 @@ function App() {
 
   useEffect(() => {
 
-    const getSubs = async () => {
+   
+    const subsAll = async () =>{
+      const datos = await getAllSubs()
+      setSubs(datos)
+    }
 
-      try {
-        // Hacer fetch con tipado explícito
-        const response = await fetch('http://localhost:6505/users');
-        // ← ¡TypeScript valida aquí!
-        const dataJson:SubsResponseFromApi  = await response.json();
-        
-        console.log('getApi>>', dataJson);
-
-        const mappedSubs= dataJson.map( element=>{
-          return {
-
-            nick: element.nick,
-            subMonths: element.months, // Mapeamos "months" a "subMonths"
-            avatar: element.profileUrl, // Mapeamos "profileUrl" a "avatar"
-            description: element.description
-          }
-        })
-
-        console.log('mappedSubs>>',mappedSubs)
-        setSubs(mappedSubs);
-
-      } catch (error) {
-        console.error('Error fetching subs:', error);
-      }
-    };
-  
-    getSubs();
+    subsAll()
+    
   }, []);
   
 
